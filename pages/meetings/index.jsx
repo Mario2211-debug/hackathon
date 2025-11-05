@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Sidebar from "@/components/Sidebar";
 import Topbar from "@/components/Topbar";
 import Modal from "@/components/Modal";
+import ViewMeetingModal from "../../components/meeting/ViewMeetingModal";
 import Table from "@/components/Table";
 import { useToast } from "@/components/ToastProvider";
 import { useAuth } from "@/context/AuthContext";
@@ -183,8 +184,14 @@ export default function MeetingsPage() {
           </button>
         </div>
 
-        <Table columns={columns} rows={meetings} emptyLabel="Nenhuma reunião cadastrada" />
-
+        <Table
+  columns={columns}
+  rows={meetings}
+  emptyLabel="Nenhuma reunião cadastrada"
+  renderViewModal={(selected, onClose) => (
+    <ViewMeetingModal meeting={selected} onClose={onClose} />
+  )}
+/>
         <Modal
           open={open}
           onClose={() => {

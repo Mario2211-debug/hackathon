@@ -4,6 +4,8 @@ import Sidebar from "@/components/Sidebar";
 import Topbar from "@/components/Topbar";
 import Modal from "@/components/Modal";
 import Table from "@/components/Table";
+import ViewParticipantModal from "../../components/participants/ViewParticipantModal";
+import ViewGroupModal from "../../components/groups/ViewGroupModal";
 import { useToast } from "@/components/ToastProvider";
 import { useAuth } from "@/context/AuthContext";
 import { authAPI, usersAPI, groupsAPI } from "@/services/api";
@@ -108,13 +110,13 @@ export default function ParticipantsPage() {
 
   const groupColumns = [
     { key: "name", header: "Nome" },
-    { 
-      key: "description", 
+    {
+      key: "description",
       header: "Descrição",
       render: (v) => v || "Sem descrição"
     },
-    { 
-      key: "members", 
+    {
+      key: "members",
       header: "Membros",
       render: (v) => Array.isArray(v) ? `${v.length} membro${v.length !== 1 ? 's' : ''}` : "0 membros"
     },
@@ -125,7 +127,7 @@ export default function ParticipantsPage() {
       <Sidebar />
       <main className="flex-1 p-8 space-y-8">
         <Topbar />
-        
+
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
@@ -159,18 +161,26 @@ export default function ParticipantsPage() {
           <Table
             columns={participantColumns}
             rows={participants}
-            emptyLabel="Nenhum participante cadastrado"
+            emptyLabel="Nenhum participante encontrado"
+            renderViewModal={(selected, onClose) => (
+              <ViewParticipantModal participant={selected} onClose={onClose} />
+            )}
           />
+
         </div>
 
         {/* Groups Section */}
         <div className="space-y-4">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Grupos</h2>
           <Table
-            columns={groupColumns}
-            rows={groups}
-            emptyLabel="Nenhum grupo criado"
-          />
+  columns={groupColumns}
+  rows={groups}
+  emptyLabel="Nenhum grupo criado"
+  renderViewModal={(selected, onClose) => (
+    <ViewGroupModal group={selected} onClose={onClose} />
+  )}
+/>
+
         </div>
 
         {/* Participant Modal */}
@@ -295,9 +305,8 @@ export default function ParticipantsPage() {
                       return (
                         <div
                           key={participant._id || participant.id}
-                          className={`flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer ${
-                            isSelected ? 'bg-blue-50 dark:bg-blue-900/20' : ''
-                          }`}
+                          className={`flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer ${isSelected ? 'bg-blue-50 dark:bg-blue-900/20' : ''
+                            }`}
                           onClick={() => toggleMemberInGroup(participant._id || participant.id)}
                         >
                           <div>
@@ -309,11 +318,10 @@ export default function ParticipantsPage() {
                             </p>
                           </div>
                           <div
-                            className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${
-                              isSelected
+                            className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${isSelected
                                 ? 'bg-blue-600 border-blue-600 dark:bg-blue-500 dark:border-blue-500'
                                 : 'border-gray-300 dark:border-gray-600'
-                            }`}
+                              }`}
                           >
                             {isSelected && (
                               <div className="w-2 h-2 rounded-full bg-white" />
