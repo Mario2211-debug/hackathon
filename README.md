@@ -1,5 +1,7 @@
 # MeetEasy 📅
 
+![Bytes4Future](https://img.shields.io/badge/Bytes4Future-Junior%20Fullstack%20Developer-00b894?style=flat-square)
+
 Sistema completo de gerenciamento de reuniões com interface moderna, minimalista e intuitiva. Gerencie participantes, crie grupos, agende reuniões e visualize tudo em um calendário interativo.
 
 ![Next.js](https://img.shields.io/badge/Next.js-16.0-black)
